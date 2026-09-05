@@ -125,6 +125,12 @@ trailer does not establish that.
 Every repository's gates must pass, including `Scripts/check-license-headers.sh`. A new Swift file
 needs the two-line licence header; the script prints the exact lines if you forget.
 
+## Code of conduct
+
+The project follows the [Contributor Covenant](CODE_OF_CONDUCT.md), version 2.1. It applies in every
+repository in the family and in the issues, pull requests and discussions attached to them. Reports
+go to <conduct@simonpilkington.au>.
+
 ## Licence
 
 Apache-2.0. Contributions are licensed inbound on the same terms as outbound, under section 5 of the
