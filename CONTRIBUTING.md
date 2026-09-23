@@ -20,7 +20,8 @@ it is not about what tools you used to write it.
 **Open a pull request directly for:**
 
 - **A bug fix** — restoring behaviour or a design that was already intended. The test is whether you
-  can point at the intent the code fails to meet: a doc comment, a design note, a test, a proposal.
+  can point at the intent the code fails to meet: a requirement in `openspec/specs/`, a doc comment, a
+  design note, a test, a proposal.
   If you cannot point at one, what you have is a behaviour change, however obviously better it is.
 - Documentation, tests, CI and build tooling.
 - Performance work that changes no observable behaviour.
@@ -88,12 +89,24 @@ tracking issue:
 **The issue owns the status, not the file.** A document that records its own progress goes stale
 silently and nobody notices; an issue is the durable reference, and it is where the state lives.
 
-**4. Land the proposal as its own pull request**, separate from any implementation. It is reviewed
-as a design. Merging it means the design is agreed, not that the work is done.
+**4. Write the spec deltas** if the proposal changes behaviour. Each repository states what its code
+does in `openspec/specs/`, one requirement at a time. The proposal says how those requirements change,
+as OpenSpec deltas in `openspec/changes/<change-name>/`: a short `proposal.md` linking the proposal
+and its issue, and `specs/<capability>/spec.md` files under `ADDED`, `MODIFIED`, `REMOVED` or
+`RENAMED Requirements` headings. The repository's `openspec/changes/README.md` gives the shape. The
+deltas are the part of a proposal a reviewer can hold the implementation to, so they are reviewed
+with it. There is no `tasks.md`; the issue owns the status.
 
-**5. The implementation references the proposal** and updates the tracking issue as it lands. A
-proposal that has shipped says so in its status blockquote and stays where it is — the record of why
-is worth more after the fact than during.
+**5. Land the proposal and its deltas as their own pull request**, separate from any implementation.
+It is reviewed as a design. Merging it means the design is agreed, not that the work is done. CI
+checks that every delta applies to the current specs.
+
+**6. The implementation references the proposal**, applies its deltas with
+`openspec archive <change-name>`, and updates the tracking issue as it lands. Applying the deltas
+updates `openspec/specs/` in the same pull request as the code, and moves the change into
+`openspec/changes/archive/`, where it stays as the record of what the proposal changed. A proposal
+that has shipped says so in its status blockquote and stays where it is — the record of why is worth
+more after the fact than during.
 
 ### What a proposal contains
 
@@ -121,6 +134,10 @@ history is meant to read as an account of how the design arrived where it did.
 Do not add tool attribution trailers: no `Co-Authored-By:` for a model, no generation notices, no
 session links. See *Using AI* above — what matters is that you stand behind the change, and a
 trailer does not establish that.
+
+A pull request that changes what a requirement in `openspec/specs/` says edits that spec in the same
+pull request. A bug fix whose spec recorded the bug is the common case. Behaviour and its
+specification move together, and CI checks that every pinned test the specs name still exists.
 
 Every repository's gates must pass, including `Scripts/check-license-headers.sh`. A new Swift file
 needs the two-line licence header; the script prints the exact lines if you forget.
